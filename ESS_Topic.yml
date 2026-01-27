@@ -1,0 +1,246 @@
+kind: AdaptiveDialog
+modelDescription: Create catalogue item base on ServiceNow available catalogs and items.
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent: {}
+  actions:
+    - kind: InvokeConnectorAction
+      id: invokeConnectorAction_1sGQXL
+      output:
+        kind: SingleVariableOutputBinding
+        variable: Topic.GetCatalogs
+
+      connectionReference: pve_sharedservicenow_597ef
+      connectionProperties:
+        name: pve_sharedservicenow_597ef
+        mode: Invoker
+
+      operationId: GetCatalogs
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_eFCXaL
+      input:
+        binding:
+          SNOWInputRecord: =JSON(Topic.GetCatalogs.result)
+
+      output:
+        binding:
+          predictionOutput: Topic.acSnowCatalog
+
+      aIModelId: 3b1563cb-b0fb-4c7f-9e7e-080f5e5abf73
+
+    - kind: AdaptiveCardPrompt
+      id: FMJN7p
+      interruptionPolicy:
+        allowInterruption: false
+
+      card: =Topic.acSnowCatalog.text
+      output: {}
+      outputType: {}
+
+    - kind: ParseValue
+      id: MKkLhg
+      variable: Topic.recSnowCatalog
+      valueType:
+        kind: Record
+        properties:
+          action: String
+          actionSubmitId: String
+          selectedSysId: String
+
+      value: =System.Activity.Value
+
+    - kind: InvokeConnectorAction
+      id: invokeConnectorAction_YfJo7Q
+      input:
+        binding:
+          catalogId: =Topic.recSnowCatalog.selectedSysId
+          sysparm_limit: 25
+
+      output:
+        kind: SingleVariableOutputBinding
+        variable: Topic.GetCatalogCategories
+
+      connectionReference: pve_sharedservicenow_597ef
+      connectionProperties:
+        name: pve_sharedservicenow_597ef
+        mode: Invoker
+
+      operationId: GetCatalogCategories
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_Hnu6Zn
+      input:
+        binding:
+          SNOWInputRecord: =JSON(Topic.GetCatalogCategories.result)
+
+      output:
+        binding:
+          predictionOutput: Topic.varCategoriesAC
+
+      aIModelId: 3b1563cb-b0fb-4c7f-9e7e-080f5e5abf73
+
+    - kind: AdaptiveCardPrompt
+      id: NjIWce
+      interruptionPolicy:
+        allowInterruption: false
+
+      card: =Topic.varCategoriesAC.text
+      output: {}
+      outputType: {}
+
+    - kind: ParseValue
+      id: h6wgyc
+      variable: Topic.recSnowCategory
+      valueType:
+        kind: Record
+        properties:
+          action: String
+          actionSubmitId: String
+          selectedSysId: String
+
+      value: =System.Activity.Value
+
+    - kind: InvokeConnectorAction
+      id: invokeConnectorAction_gliLEB
+      input:
+        binding:
+          sysparm_category: =Topic.recSnowCategory.selectedSysId
+          sysparm_limit: 30
+
+      output:
+        kind: SingleVariableOutputBinding
+        variable: Topic.GetCatalogItems
+
+      connectionReference: pve_sharedservicenow_597ef
+      connectionProperties:
+        name: pve_sharedservicenow_597ef
+        mode: Invoker
+
+      operationId: GetCatalogItems
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_MmsOcj
+      input:
+        binding:
+          SNOWInputRecord: =JSON(Topic.GetCatalogItems.result)
+
+      output:
+        binding:
+          predictionOutput: Topic.varItemsAC
+
+      aIModelId: 3b1563cb-b0fb-4c7f-9e7e-080f5e5abf73
+
+    - kind: AdaptiveCardPrompt
+      id: YcKs2i
+      card: =Topic.varItemsAC.text
+      output: {}
+      outputType: {}
+
+    - kind: ParseValue
+      id: WSrjWe
+      variable: Topic.recSnowItem
+      valueType:
+        kind: Record
+        properties:
+          action: String
+          actionSubmitId: String
+          selectedItemSysId: String
+
+      value: =System.Activity.Value
+
+    - kind: InvokeConnectorAction
+      id: invokeConnectorAction_1cgkus
+      input:
+        binding:
+          sys_id: =Topic.recSnowItem.selectedItemSysId
+
+      output:
+        kind: SingleVariableOutputBinding
+        variable: Topic.GetCatalogItem
+
+      connectionReference: pve_sharedservicenow_597ef
+      connectionProperties:
+        name: pve_sharedservicenow_597ef
+        mode: Invoker
+
+      operationId: GetCatalogItem
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_fzjhCg
+      input:
+        binding:
+          SNOWCatalogItemDetails: =JSON(Topic.GetCatalogItem.result)
+
+      output:
+        binding:
+          predictionOutput: Topic.varItemAC
+
+      aIModelId: 61295dc5-7961-4a1a-9042-4d7e1855fb52
+
+    - kind: AdaptiveCardPrompt
+      id: vLJzK8
+      card: =Topic.varItemAC.text
+      output: {}
+      outputType: {}
+
+    - kind: SetVariable
+      id: setVariable_4JZxGP
+      variable: Global.varOrderItemDetails
+      value: =System.Activity.Value
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_GsCdEG
+      input:
+        binding:
+          text: =JSON(Global.varOrderItemDetails)
+          text_1: =System.User.Email
+
+      output:
+        binding:
+          snowordernumber: Global.SNOWOrderNumber
+          snowordersysid: Global.SNOWOrderSysID
+
+      flowId: f2f7fc20-6df0-f011-8406-7c1e52fd22a7
+
+    - kind: SendActivity
+      id: sendActivity_FEGaAI
+      activity:
+        attachments:
+          - kind: AdaptiveCardTemplate
+            cardContent: |-
+              ={
+                type: "AdaptiveCard",
+                '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+                version: "1.5",
+                body: [
+                  {
+                    type: "TextBlock",
+                    text: "Your request was created",
+                    wrap: true,
+                    style: "heading"
+                  },
+                  {
+                    type: "TextBlock",
+                    wrap: true,
+                    text: Global.SNOWOrderNumber
+                  },
+                  {
+                    type: "ActionSet",
+                    actions: [
+                      {
+                        type: "Action.OpenUrl",
+                        title: "Link to your request",
+                        url: Concatenate("https://dev310193.service-now.com/now/nav/ui/classic/params/target/sc_request.do%3Fsys_id%3D",Global.SNOWOrderSysID)
+                      }
+                    ]
+                  }
+                ]
+              }
+
+    - kind: EndDialog
+      id: VMHhSk
+
+inputType: {}
+outputType: {}
