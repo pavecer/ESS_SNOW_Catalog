@@ -138,6 +138,10 @@ beginDialog:
       output: {}
       outputType: {}
 
+    - kind: SendActivity
+      id: sendActivity_7GHWLe
+      activity: "{System.Activity.Value}"
+
     - kind: ParseValue
       id: WSrjWe
       variable: Topic.recSnowItem
@@ -146,7 +150,7 @@ beginDialog:
         properties:
           action: String
           actionSubmitId: String
-          selectedItemSysId: String
+          selectedSysId: String
 
       value: =System.Activity.Value
 
@@ -154,7 +158,7 @@ beginDialog:
       id: invokeConnectorAction_1cgkus
       input:
         binding:
-          sys_id: =Topic.recSnowItem.selectedItemSysId
+          sys_id: =Topic.recSnowItem.selectedSysId
 
       output:
         kind: SingleVariableOutputBinding
