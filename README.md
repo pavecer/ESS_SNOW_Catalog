@@ -68,7 +68,7 @@ The agent follows a structured workflow to guide users through the ordering proc
 ## Configuration Requirements
 
 ### ServiceNow
-- Active ServiceNow instance (configured for: `dev310193.service-now.com`)
+- Active ServiceNow instance (configured for: `[instancename].service-now.com`)
 - Service Catalog API access
 - Valid connection credentials
 
