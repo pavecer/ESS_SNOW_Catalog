@@ -1,0 +1,14 @@
+<environmentvariabledefinition schemaname="pve_ServiceNowInstanceURL">
+  <defaultvalue>https://&lt;name&gt;.service-now.com/</defaultvalue>
+  <description default="Provides ServiceNow instance url in format https://&lt;name&gt;.service-now.com/">
+    <label description="Provides ServiceNow instance url in format https://&lt;name&gt;.service-now.com/" languagecode="1033" />
+  </description>
+  <displayname default="ServiceNow Instance URL">
+    <label description="ServiceNow Instance URL" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.0.0.7</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

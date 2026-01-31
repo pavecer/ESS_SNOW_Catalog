@@ -1,8 +1,8 @@
-<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26013.135" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26013.00135">
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26013.135" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26013.00141">
   <Entities></Entities>
   <Roles></Roles>
   <Workflows>
-    <Workflow WorkflowId="{f2f7fc20-6df0-f011-8406-7c1e52fd22a7}" Name="[ESSEXAMPLE] ServiceNow Order Item" Description="This flow starts when a user submits item details and their username. It retrieves the relevant catalog item from ServiceNow, checks if all required information is provided using AI, and then places an order for the selected item. After the order is created, the flow responds to the user with the order number and system ID. The process is automated to streamline catalog item selection and ordering, ensuring user input is validated and the order is successfully created in ServiceNow.">
+    <Workflow WorkflowId="{f2f7fc20-6df0-f011-8406-7c1e52fd22a7}" Name="[ESSEXAMPLE] ServiceNow Order Item" Description="This flow starts when a user submits item details and their username. It retrieves the relevant catalog item from ServiceNow, checks if all required information is provided, and then places an order for the selected item. After the order is created, the flow responds to the user with the order number and system ID. The process is automated to streamline catalog item selection and ordering, ensuring user input is validated and the order is successfully created in ServiceNow.">
       <JsonFileName>/Workflows/ESSEXAMPLEServiceNowOrderItem-F2F7FC20-6DF0-F011-8406-7C1E52FD22A7.json</JsonFileName>
       <Type>1</Type>
       <Subprocess>0</Subprocess>
@@ -28,7 +28,7 @@
         <LocalizedName languagecode="1033" description="[ESSEXAMPLE] ServiceNow Order Item" />
       </LocalizedNames>
       <Descriptions>
-        <Description languagecode="1033" description="This flow starts when a user submits item details and their username. It retrieves the relevant catalog item from ServiceNow, checks if all required information is provided using AI, and then places an order for the selected item. After the order is created, the flow responds to the user with the order number and system ID. The process is automated to streamline catalog item selection and ordering, ensuring user input is validated and the order is successfully created in ServiceNow." />
+        <Description languagecode="1033" description="This flow starts when a user submits item details and their username. It retrieves the relevant catalog item from ServiceNow, checks if all required information is provided, and then places an order for the selected item. After the order is created, the flow responds to the user with the order number and system ID. The process is automated to streamline catalog item selection and ordering, ensuring user input is validated and the order is successfully created in ServiceNow." />
       </Descriptions>
     </Workflow>
   </Workflows>
@@ -48,15 +48,15 @@
       <statecode>1</statecode>
       <statuscode>1</statuscode>
       <IsCustomizable>1</IsCustomizable>
-      <msdyn_activerunconfigurationid>{20a2f4a6-385c-4b2d-b67d-fa9d19331e24}</msdyn_activerunconfigurationid>
+      <msdyn_activerunconfigurationid>{355e5db2-53bf-48e3-a592-86897c40124c}</msdyn_activerunconfigurationid>
       <AIConfigurations>
         <AIConfiguration>
-          <msdyn_aiconfigurationid>{20a2f4a6-385c-4b2d-b67d-fa9d19331e24}</msdyn_aiconfigurationid>
-          <msdyn_customconfiguration>{"version":"GptDynamicPrompt-2","prompt":[{"type":"literal","text":"Generate the adaptive card definition in JSON for Microsoft Copilot studio \"ask with adaptive card node\" from details in record format of catalog item from ServiceNow "},{"type":"inputVariable","id":"SNOWInputRecord"},{"type":"literal","text":" . The purpose is to offer user to select from list of available items specific item to select. Use the version 1.5 for adaptive card definition. When card submitted there is also mandatory to send as a part of the adaptive card submit the sys_id of the selected item.\nExample output:\n{\n  \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n  \"type\": \"AdaptiveCard\",\n  \"version\": \"1.5\",\n  \"body\": [\n// Continue with all fields for adaptive card from item details\n......\n]\n}"}],"definitions":{"inputs":[{"id":"SNOWInputRecord","text":"SNOWInputRecord","type":"text","quickTestValue":""}],"formulas":[],"data":[],"output":{"formats":["text"],"jsonSchema":{"type":"object","properties":{"$schema":{"type":"string"},"type":{"type":"string"},"version":{"type":"string"},"body":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string"},"text":{"type":"string"},"weight":{"type":"string"},"size":{"type":"string"},"id":{"type":"string"},"style":{"type":"string"},"choices":{"type":"array","items":{"type":"object","properties":{"title":{"type":"string"},"value":{"type":"string"}},"required":["title","value"]}}},"required":["type"]}},"actions":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string"},"title":{"type":"string"},"data":{"type":"object","properties":{"action":{"type":"string"}}}},"required":["type","title","data"]}}}},"jsonExamples":[{"$schema":"http://adaptivecards.io/schemas/adaptive-card.json","type":"AdaptiveCard","version":"1.5","body":[{"type":"TextBlock","text":"Select a ServiceNow Item","weight":"Bolder","size":"Medium"},{"type":"Input.ChoiceSet","id":"selectedSysId","style":"expanded","choices":[{"title":"Technical Catalog","value":"742ce428d7211100f2d224837e61036d"},{"title":"Service Catalog","value":"e0d08b13c3330100c8b837659bba8fb4"}]}],"actions":[{"type":"Action.Submit","title":"Select","data":{"action":"selectItem"}}]}],"isCustomUserFormat":true}},"modelParameters":{"modelType":"gpt-41-mini","gptParameters":{"temperature":0}},"settings":{"recordRetrievalLimit":30,"shouldPreserveRecordLinks":null,"runtime":null},"code":""}</msdyn_customconfiguration>
-          <msdyn_majoriterationnumber>5</msdyn_majoriterationnumber>
+          <msdyn_aiconfigurationid>{355e5db2-53bf-48e3-a592-86897c40124c}</msdyn_aiconfigurationid>
+          <msdyn_customconfiguration>{"version":"GptDynamicPrompt-2","prompt":[{"type":"literal","text":"Generate the adaptive card definition in JSON for Microsoft Copilot studio \"ask with adaptive card node\" from details in record format of "},{"type":"inputVariable","id":"SNOWRecordType"},{"type":"literal","text":"  from ServiceNow "},{"type":"inputVariable","id":"SNOWInputRecord"},{"type":"literal","text":" . \nThe purpose is to offer user adaptive card to select from list of available items to select from. Use the version 1.5 for adaptive card definition. When card submitted there is also mandatory to send as a part of the adaptive card submit the sys_id of the selected item.\nExample output:\n{\n  \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n  \"type\": \"AdaptiveCard\",\n  \"version\": \"1.5\",\n  \"body\": [\n// Continue with all fields for adaptive card from item details\n......\n]\n}"}],"definitions":{"inputs":[{"id":"SNOWInputRecord","text":"SNOWInputRecord","type":"text","quickTestValue":""},{"id":"SNOWRecordType","text":"SNOWRecordType","type":"text","quickTestValue":""}],"formulas":[],"data":[],"output":{"formats":["text"],"jsonSchema":{"type":"object","properties":{"$schema":{"type":"string"},"type":{"type":"string"},"version":{"type":"string"},"body":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string"},"text":{"type":"string"},"weight":{"type":"string"},"size":{"type":"string"},"id":{"type":"string"},"style":{"type":"string"},"choices":{"type":"array","items":{"type":"object","properties":{"title":{"type":"string"},"value":{"type":"string"}},"required":["title","value"]}}},"required":["type"]}},"actions":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string"},"title":{"type":"string"},"data":{"type":"object","properties":{"action":{"type":"string"}}}},"required":["type","title","data"]}}}},"jsonExamples":[{"$schema":"http://adaptivecards.io/schemas/adaptive-card.json","type":"AdaptiveCard","version":"1.5","body":[{"type":"TextBlock","text":"Select a ServiceNow Item","weight":"Bolder","size":"Medium"},{"type":"Input.ChoiceSet","id":"selectedSysId","style":"expanded","choices":[{"title":"Technical Catalog","value":"742ce428d7211100f2d224837e61036d"},{"title":"Service Catalog","value":"e0d08b13c3330100c8b837659bba8fb4"}]}],"actions":[{"type":"Action.Submit","title":"Select","data":{"action":"selectItem"}}]}],"isCustomUserFormat":true}},"modelParameters":{"modelType":"gpt-41-mini","gptParameters":{"temperature":0}},"settings":{"recordRetrievalLimit":30,"shouldPreserveRecordLinks":null,"runtime":null},"code":""}</msdyn_customconfiguration>
+          <msdyn_majoriterationnumber>7</msdyn_majoriterationnumber>
           <msdyn_minoriterationnumber>0</msdyn_minoriterationnumber>
-          <msdyn_name>3b1563cb-b0fb-4c7f-9e7e-080f5e5abf73_1/22/2026 10:20:45 PM</msdyn_name>
-          <msdyn_modelrundataspecification>H4sIAAAAAAAACpWQSwvCMBCE/4rsORdBPPRWHwUvLbRFz7HdaqBNQrIBS+l/tw9Fabx4nplvZreDTGMRKdNwOqOxQkkI1gxOUjtKlaKjJEEtBB0chNU1b2PeIAQADEIiI66O0I5yFieXOYWFMqWfWBoYJJqGPl5DUPHaIoO81ZNz4Mob9Ax4WYrZs1eS8EE+NvQs32Ay7sPdcYvbzZveD/zE0b93/l6Rz8XeAZWQwt5T5HZ87DIVTerqJXvxYeIToACY5KABAAA=</msdyn_modelrundataspecification>
+          <msdyn_name>3b1563cb-b0fb-4c7f-9e7e-080f5e5abf73_1/30/2026 1:32:59 PM</msdyn_name>
+          <msdyn_modelrundataspecification>H4sIAAAAAAAACpWRPQvCMBCG/4rcnEUQh2x+gouFKjpHe2qgTUJyAYv0vxsbxdJ00Pl93uculwfsDJ7X2laCDmid1Ar4mMFGGU+51rRSJKkG/oCldKYU9VZUCByAwYzIypMndK94t82OsYVnbYu00QcYZIbCPFECv4jSIYN9bVoyeNUVGtZ2Ih6jIWcn/0UpikJGZqEV4Z1S6yxBumKy/uudC4fTycfeBH/m6d/TDW+xj4OTB1ykku6Wo3Cvv+q31m06esdJPaz4BDw1XqnzAQAA</msdyn_modelrundataspecification>
           <msdyn_type>190690001</msdyn_type>
           <msdyn_aimodelid>{3b1563cb-b0fb-4c7f-9e7e-080f5e5abf73}</msdyn_aimodelid>
           <msdyn_trainedmodelaiconfigurationpareid>{37e30123-12f2-f011-8406-7c1e52fd22a7}</msdyn_trainedmodelaiconfigurationpareid>
@@ -80,52 +80,6 @@
       </msdyn_modelrundataspecification>
           <msdyn_type>190690000</msdyn_type>
           <msdyn_aimodelid>{3b1563cb-b0fb-4c7f-9e7e-080f5e5abf73}</msdyn_aimodelid>
-          <statecode>2</statecode>
-          <statuscode>6</statuscode>
-          <IsCustomizable>1</IsCustomizable>
-          <msdyn_templateversion>1</msdyn_templateversion>
-        </AIConfiguration>
-      </AIConfigurations>
-    </AIModel>
-    <AIModel>
-      <msdyn_aimodelid>{c60cf315-fd43-4eea-a15b-2df8f24a95cc}</msdyn_aimodelid>
-      <msdyn_name>[ESSPRMPT] ServiceNow catalog item validation</msdyn_name>
-      <msdyn_templateid>{edfdb190-3791-45d8-9a6c-8f90a37c278a}</msdyn_templateid>
-      <statecode>1</statecode>
-      <statuscode>1</statuscode>
-      <IsCustomizable>1</IsCustomizable>
-      <msdyn_activerunconfigurationid>{7c53d237-d2ac-4e6c-b2c9-957a7f441be0}</msdyn_activerunconfigurationid>
-      <AIConfigurations>
-        <AIConfiguration>
-          <msdyn_aiconfigurationid>{7c53d237-d2ac-4e6c-b2c9-957a7f441be0}</msdyn_aiconfigurationid>
-          <msdyn_customconfiguration>{"version":"GptDynamicPrompt-2","prompt":[{"type":"literal","text":"Extract the specified "},{"type":"inputVariable","id":"variables"},{"type":"literal","text":" ,sys_id and quantity provided as a json definition from from the provided "},{"type":"inputVariable","id":"text"},{"type":"literal","text":"  with precision, paying special attention to preserving currency values. Flatten the hierarchy of entities, listing them at the same level in the output. Normalize entities to their respective data types, such as strings for text, numbers for quantities, and ISO 8601 format for dates. For currency values, include the numerical amount along with the currency symbol or code to maintain the value's context. Adapt to multilingual content, accurately extract quantities with units, and ensure the integrity of cross-referenced data. For each entity, especially currency, ensure that the JSON output accurately reflects the value with its currency symbol or code, and represents other data types appropriately.\nFor example: \n{\"\"sys_id\"\":  [extracted value],\n\"\"quantity\"\": [extracted value],\n \"\"variables\"\": {\n  \"\"[variable 1]\"\":  [extracted value],\n  \"\"[variable 2]\"\": [extracted value],\n  // Continue listing additional entities with their values and data types\n  ...\n }\n}"}],"definitions":{"inputs":[{"id":"variables","text":"variables","type":"text","quickTestValue":""},{"id":"text","text":"text","type":"text","quickTestValue":""}],"formulas":[],"data":[],"output":{"formats":["text"],"jsonSchema":{"type":"object","properties":{"sys_id":{"type":"string"},"quantity":{"type":"number"},"variables":{"type":"object","properties":{"colour":{"type":"string"},"storage":{"type":"string"}}}}},"jsonExamples":[{"sys_id":"26c5d7b29756cd1021983d1e6253af9e","quantity":1,"variables":{"colour":"blue","storage":"128 GB"}}]}},"modelParameters":{"modelType":"gpt-41-mini","gptParameters":{"temperature":0}},"settings":{"recordRetrievalLimit":30,"shouldPreserveRecordLinks":null,"runtime":null},"code":"","signature":""}</msdyn_customconfiguration>
-          <msdyn_majoriterationnumber>7</msdyn_majoriterationnumber>
-          <msdyn_minoriterationnumber>0</msdyn_minoriterationnumber>
-          <msdyn_name>c60cf315-fd43-4eea-a15b-2df8f24a95cc_1/22/2026 10:21:11 PM</msdyn_name>
-          <msdyn_modelrundataspecification>H4sIAAAAAAAACpWROw+CMBSF/4q5cxcT48CGDxIXSYC4X6RoE2ib9mIkhP8uDw1qGXRszznffTUQa34OlCmRTtxYoSR4SwYHqSuKlKK9JEE1eA3shNUF1kcsOXgADHwiI9KKuO3lGxqBaTE+Pr2TxCDU1NXAArwcC8sZJLXuPXHHkhdoGRC/k8sYfn+JY5aJ0bNVcp7lO5Z3MJlq4m7Q8vXqRW87fljRv6uZ7yIZCzsD5EIKe4042v4W36lgUBdP2Yl3LT4AvGNDt9MBAAA=</msdyn_modelrundataspecification>
-          <msdyn_type>190690001</msdyn_type>
-          <msdyn_aimodelid>{c60cf315-fd43-4eea-a15b-2df8f24a95cc}</msdyn_aimodelid>
-          <msdyn_trainedmodelaiconfigurationpareid>{fb6ec495-56f1-f011-8406-6045bdf024ca}</msdyn_trainedmodelaiconfigurationpareid>
-          <statecode>2</statecode>
-          <statuscode>7</statuscode>
-          <IsCustomizable>1</IsCustomizable>
-          <msdyn_templateversion>1</msdyn_templateversion>
-        </AIConfiguration>
-        <AIConfiguration>
-          <msdyn_aiconfigurationid>{fb6ec495-56f1-f011-8406-6045bdf024ca}</msdyn_aiconfigurationid>
-          <msdyn_majoriterationnumber>1</msdyn_majoriterationnumber>
-          <msdyn_minoriterationnumber>0</msdyn_minoriterationnumber>
-          <msdyn_modeldata>04eff3bc-94c3-4069-a089-e9eab4023c97</msdyn_modeldata>
-          <msdyn_name>c60cf315-fd43-4eea-a15b-2df8f24a95cc_Training_1/14/2026 2:37:51 PM</msdyn_name>
-          <msdyn_modelrundataspecification>
-        {
-          "schemaVersion": 2,
-          "input": {},
-          "output": {}
-        }
-      </msdyn_modelrundataspecification>
-          <msdyn_type>190690000</msdyn_type>
-          <msdyn_aimodelid>{c60cf315-fd43-4eea-a15b-2df8f24a95cc}</msdyn_aimodelid>
           <statecode>2</statecode>
           <statuscode>6</statuscode>
           <IsCustomizable>1</IsCustomizable>

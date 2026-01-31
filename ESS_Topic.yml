@@ -23,6 +23,7 @@ beginDialog:
       input:
         binding:
           SNOWInputRecord: =JSON(Topic.GetCatalogs.result)
+          SNOWRecordType: Catalog
 
       output:
         binding:
@@ -74,6 +75,7 @@ beginDialog:
       input:
         binding:
           SNOWInputRecord: =JSON(Topic.GetCatalogCategories.result)
+          SNOWRecordType: Service Category
 
       output:
         binding:
@@ -125,6 +127,7 @@ beginDialog:
       input:
         binding:
           SNOWInputRecord: =JSON(Topic.GetCatalogItems.result)
+          SNOWRecordType: Catalog Items
 
       output:
         binding:
@@ -137,10 +140,6 @@ beginDialog:
       card: =Topic.varItemsAC.text
       output: {}
       outputType: {}
-
-    - kind: SendActivity
-      id: sendActivity_7GHWLe
-      activity: "{System.Activity.Value}"
 
     - kind: ParseValue
       id: WSrjWe
@@ -236,7 +235,7 @@ beginDialog:
                       {
                         type: "Action.OpenUrl",
                         title: "Link to your request",
-                        url: Concatenate("https://dev310193.service-now.com/now/nav/ui/classic/params/target/sc_request.do%3Fsys_id%3D",Global.SNOWOrderSysID)
+                        url: Concatenate(Env.pve_ServiceNowInstanceURL,"now/nav/ui/classic/params/target/sc_request.do%3Fsys_id%3D",Global.SNOWOrderSysID)
                       }
                     ]
                   }

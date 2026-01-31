@@ -1,0 +1,394 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_service-now-2": {
+        "api": {
+          "name": "shared_service-now"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "pve_sharedservicenow_597ef"
+        },
+        "runtimeSource": "invoker"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "undefined",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Skills",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "description": "{\"acrobat\":\"True\",\"action\":\"order_item\",\"actionSubmitId\":\"Order Now\",\"Additional_software_requirements\":\"test\",\"eclipse_ide\":\"1\",\"item_id\":\"774906834fbb4200086eeed18110c737\",\"photoshop\":\"True\",\"quantity\":\"2\"}",
+                  "title": "SNOWItemDetails",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_1": {
+                  "description": "admin@D365DemoTSCE54115347.onmicrosoft.com",
+                  "title": "UserName",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "required": [
+                "text",
+                "text_1"
+              ]
+            }
+          },
+          "metadata": {
+            "operationMetadataId": "8dff676a-e6ef-4c31-96b8-43a0368d3553"
+          }
+        }
+      },
+      "actions": {
+        "Get_catalog_item": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "sys_id": "@body('Parse_TopicOutput')?['sys_id']"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_service-now",
+              "operationId": "GetCatalogItem",
+              "connectionName": "shared_service-now-2"
+            }
+          },
+          "runAfter": {
+            "Parse_TopicOutput": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d88df1fa-047d-45ac-a0a7-34aabd73da16"
+          }
+        },
+        "Respond_to_the_agent": {
+          "type": "Response",
+          "kind": "Skills",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "snowordernumber": {
+                  "title": "SNOWOrderNumber",
+                  "x-ms-dynamically-added": true,
+                  "type": "string",
+                  "description": "Provides the number of created ServiceNow order request."
+                },
+                "snowordersysid": {
+                  "title": "SNOWOrderSysID",
+                  "description": "Provides the sys_id of ServiceNow order request.",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "additionalProperties": {}
+            },
+            "statusCode": 200,
+            "body": {
+              "snowordernumber": "@{outputs('Order_item')?['body/result/request_number']}",
+              "snowordersysid": "@{outputs('Order_item')?['body/result/sys_id']}"
+            }
+          },
+          "runAfter": {
+            "Order_item": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c492e747-99ab-45ca-9a85-b0ec813ee893"
+          }
+        },
+        "Initialize_variable_MappedVariables": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "MappedVariables",
+                "type": "object"
+              }
+            ]
+          },
+          "runAfter": {}
+        },
+        "Initialize_variable_VariablesList": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "VariablesList",
+                "type": "array"
+              }
+            ]
+          },
+          "runAfter": {
+            "Initialize_variable_MappedVariables": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Parse_TopicOutput": {
+          "type": "ParseJson",
+          "inputs": {
+            "content": "@triggerBody()?['text']",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sys_id": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "string"
+                },
+                "actionSubmitId": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "runAfter": {
+            "Initialize_variable_VariablesList": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Extract_Variables_From_Item": {
+          "type": "Foreach",
+          "foreach": "@outputs('Get_catalog_item')?['body/result/variables']",
+          "actions": {
+            "Check_If_Has_Children": {
+              "type": "If",
+              "expression": {
+                "and": [
+                  {
+                    "greater": [
+                      "@length(coalesce(items('Extract_Variables_From_Item')?['children'], json('[]')))",
+                      0
+                    ]
+                  }
+                ]
+              },
+              "actions": {
+                "Loop_Children": {
+                  "type": "Foreach",
+                  "foreach": "@items('Extract_Variables_From_Item')?['children']",
+                  "actions": {
+                    "Check_Child_Has_Name": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "not": {
+                              "equals": [
+                                "@items('Loop_Children')?['name']",
+                                "@null"
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "Append_Child_Variable": {
+                          "type": "AppendToArrayVariable",
+                          "inputs": {
+                            "name": "VariablesList",
+                            "value": {
+                              "name": "@{items('Loop_Children')?['name']}",
+                              "friendly_type": "@{items('Loop_Children')?['friendly_type']}",
+                              "type": "@{items('Loop_Children')?['type']}"
+                            }
+                          }
+                        }
+                      },
+                      "else": {
+                        "actions": {}
+                      }
+                    }
+                  }
+                }
+              },
+              "else": {
+                "actions": {
+                  "Check_Is_Not_Container": {
+                    "type": "If",
+                    "expression": {
+                      "and": [
+                        {
+                          "not": {
+                            "equals": [
+                              "@items('Extract_Variables_From_Item')?['friendly_type']",
+                              "container_start"
+                            ]
+                          }
+                        },
+                        {
+                          "not": {
+                            "equals": [
+                              "@items('Extract_Variables_From_Item')?['name']",
+                              "@null"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "actions": {
+                      "Append_Direct_Variable": {
+                        "type": "AppendToArrayVariable",
+                        "inputs": {
+                          "name": "VariablesList",
+                          "value": {
+                            "name": "@{items('Extract_Variables_From_Item')?['name']}",
+                            "friendly_type": "@{items('Extract_Variables_From_Item')?['friendly_type']}",
+                            "type": "@{items('Extract_Variables_From_Item')?['type']}"
+                          }
+                        }
+                      }
+                    },
+                    "else": {
+                      "actions": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Get_catalog_item": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Map_Variables_To_Output": {
+          "type": "Foreach",
+          "foreach": "@variables('VariablesList')",
+          "actions": {
+            "Determine_Variable_Value": {
+              "type": "If",
+              "expression": {
+                "or": [
+                  {
+                    "equals": [
+                      "@items('Map_Variables_To_Output')?['friendly_type']",
+                      "check_box"
+                    ]
+                  },
+                  {
+                    "equals": [
+                      "@items('Map_Variables_To_Output')?['type']",
+                      7
+                    ]
+                  }
+                ]
+              },
+              "actions": {
+                "Set_Checkbox_Value": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "MappedVariables",
+                    "value": "@outputs('Compose_Checkbox_Value')"
+                  },
+                  "runAfter": {
+                    "Compose_Checkbox_Value": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_Checkbox_Value": {
+                  "type": "Compose",
+                  "inputs": "@addProperty(coalesce(variables('MappedVariables'), json('{}')), items('Map_Variables_To_Output')?['name'], if(or(equals(body('Parse_TopicOutput')?[items('Map_Variables_To_Output')?['name']], 'True'), equals(body('Parse_TopicOutput')?[items('Map_Variables_To_Output')?['name']], 'true'), equals(body('Parse_TopicOutput')?[items('Map_Variables_To_Output')?['name']], true)), true, false))"
+                }
+              },
+              "else": {
+                "actions": {
+                  "Set_String_Value": {
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "MappedVariables",
+                      "value": "@outputs('Compose_String_Value')"
+                    },
+                    "runAfter": {
+                      "Compose_String_Value": [
+                        "Succeeded"
+                      ]
+                    }
+                  },
+                  "Compose_String_Value": {
+                    "type": "Compose",
+                    "inputs": "@addProperty(coalesce(variables('MappedVariables'), json('{}')), items('Map_Variables_To_Output')?['name'], coalesce(body('Parse_TopicOutput')?[items('Map_Variables_To_Output')?['name']], ''))"
+                  }
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Extract_Variables_From_Item": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Show_Variables": {
+          "type": "Compose",
+          "inputs": "@variables('MappedVariables')",
+          "runAfter": {
+            "Map_Variables_To_Output": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Show_sysid": {
+          "type": "Compose",
+          "inputs": "@body('Parse_TopicOutput')?['sys_id']",
+          "runAfter": {
+            "Show_Variables": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Order_item": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "sys_id": "@body('Parse_TopicOutput')?['sys_id']",
+              "body/sysparm_quantity": "@body('Parse_TopicOutput')?['quantity']",
+              "body/sysparm_requested_for": "@triggerBody()?['text_1']",
+              "body/variables": "@variables('MappedVariables')"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_service-now",
+              "operationId": "OrderItem",
+              "connectionName": "shared_service-now-2"
+            }
+          },
+          "runAfter": {
+            "Show_sysid": [
+              "Succeeded"
+            ]
+          }
+        }
+      },
+      "description": "This flow starts when a user submits item details and their username. It retrieves the relevant catalog item from ServiceNow, checks if all required information is provided using AI, and then places an order for the selected item. After the order is created, the flow responds to the user with the order number and system ID. The process is automated to streamline catalog item selection and ordering, ensuring user input is validated and the order is successfully created in ServiceNow."
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

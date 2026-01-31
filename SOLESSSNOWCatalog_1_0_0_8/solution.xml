@@ -1,11 +1,13 @@
-<ImportExportXml version="9.2.26013.135" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26013.135" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26013.00135">
+<ImportExportXml version="9.2.26013.135" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26013.135" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26013.00141">
   <SolutionManifest>
     <UniqueName>SOLESSSNOWCatalog</UniqueName>
     <LocalizedNames>
       <LocalizedName description="[SOL] ESS SNOW Catalog" languagecode="1033" />
     </LocalizedNames>
-    <Descriptions />
-    <Version>1.0.0.7</Version>
+    <Descriptions>
+      <Description description="Extension to Employee Self Service Agent to be able to handle ServiceNow catalog item ordering." languagecode="1033" />
+    </Descriptions>
+    <Version>1.0.0.8</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>pavelvecer</UniqueName>
@@ -80,7 +82,6 @@
       <RootComponent type="29" id="{f2f7fc20-6df0-f011-8406-7c1e52fd22a7}" behavior="0" />
       <RootComponent type="401" id="{3b1563cb-b0fb-4c7f-9e7e-080f5e5abf73}" behavior="0" />
       <RootComponent type="401" id="{61295dc5-7961-4a1a-9042-4d7e1855fb52}" behavior="0" />
-      <RootComponent type="401" id="{c60cf315-fd43-4eea-a15b-2df8f24a95cc}" behavior="0" />
     </RootComponents>
     <MissingDependencies />
   </SolutionManifest>
