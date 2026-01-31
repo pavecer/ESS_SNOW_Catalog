@@ -4,7 +4,7 @@
 
 Microsoft Copilot Studio agent for Employee Self Service (ESS) that enables users to order ServiceNow catalog items through a conversational interface with AI-generated adaptive cards.
 
-**Version**: 1.0.0.7 | **Publisher**: Pavel Vecer
+**Version**: 1.0.0.8 | **Publisher**: Pavel Vecer
 
 ## Agent Flow
 
@@ -28,10 +28,6 @@ The agent uses three AI Builder models to generate dynamic user interfaces:
    - Creates detailed item view with order form
    - Includes all required fields from ServiceNow variables
 
-3. **Input Validator** (`c60cf315-fd43-4eea-a15b-2df8f24a95cc`)
-   - Validates user input against required catalog item fields
-   - Ensures data completeness before order submission
-
 ## Power Automate Flow
 
 **Flow**: ESS EXAMPLE ServiceNow Order Item (`f2f7fc20-6df0-f011-8406-7c1e52fd22a7`)
@@ -43,8 +39,9 @@ Trigger (from Copilot)
   ↓ Receives: Order data JSON + User email
 Get Catalog Item 
   ↓ Fetches: Item details from ServiceNow
-Validate Input 
-  ↓ AI Builder: Compares submitted data with required fields
+Extract & Map Variables 
+  ↓ Processes: Item variables and maps to order format
+  ↓ Handles: Checkboxes, text fields, and nested structures
 Submit Order 
   ↓ Creates: ServiceNow request with quantity and requestor
 Return Response 
@@ -58,12 +55,11 @@ Return Response
 ## Quick Start
 
 ### Installation
-1. Import `SOLESSSNOWCatalog_1_0_0_7.zip` into Power Platform
+1. Import `SOLESSSNOWCatalog_1_0_0_8.zip` into Power Platform
 2. Configure ServiceNow connection (`pve_sharedservicenow_597ef`)
-3. Configure Dataverse connection (`pve_sharedcommondataserviceforapps_5893b`)
-4. Verify AI Builder models are published
-5. Turn on the Power Automate flow
-6. Import `ESS_Topic.yml` into Copilot Studio
+3. Verify AI Builder models are published
+4. Turn on the Power Automate flow
+5. Import `ESS_Topic.yml` into Copilot Studio
 
 ### Prerequisites
 - Microsoft Copilot Studio license
@@ -75,8 +71,8 @@ Return Response
 ```
 ESS_SNOW_Catalog/
 ├── ESS_Topic.yml                          # Copilot Studio topic
-├── SOLESSSNOWCatalog_1_0_0_7.zip         # Power Platform solution
-└── SOLESSSNOWCatalog_1_0_0_7/            # Unpacked solution
+├── SOLESSSNOWCatalog_1_0_0_8.zip         # Power Platform solution
+└── SOLESSSNOWCatalog_1_0_0_8/            # Unpacked solution
     └── Workflows/
         └── ESSEXAMPLEServiceNowOrderItem-F2F7FC20-6DF0-F011-8406-7C1E52FD22A7.json
 ```
