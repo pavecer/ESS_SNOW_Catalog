@@ -1,4 +1,4 @@
-# ESS ServiceNow Catalog Ordering Agent
+# ESS ServiceNow Catalog Ordering Extension
 
 ## Overview
 
