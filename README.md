@@ -2,7 +2,7 @@
 
 ## Overview
 
-Microsoft Copilot Studio agent for Employee Self Service (ESS) that enables users to order ServiceNow catalog items through a conversational interface with AI-generated adaptive cards.
+Microsoft Copilot Studio extension for Employee Self Service (ESS) that enables users to order ServiceNow catalog items through a conversational interface with AI-generated adaptive cards.
 
 **Version**: 1.0.0.8 | **Publisher**: Pavel Vecer
 
