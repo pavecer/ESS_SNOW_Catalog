@@ -4,7 +4,7 @@
 
 Microsoft Copilot Studio extension for Employee Self Service (ESS) that enables users to order ServiceNow catalog items through a conversational interface with AI-generated adaptive cards.
 
-**Version**: 1.0.0.8 | **Publisher**: Pavel Vecer
+**Version**: 1.0.0.9 | **Publisher**: Pavel Vecer
 
 ## Agent Flow
 
@@ -55,7 +55,7 @@ Return Response
 ## Quick Start
 
 ### Installation
-1. Import `SOLESSSNOWCatalog_1_0_0_8.zip` into Power Platform
+1. Import `SOLESSSNOWCatalog_1_0_0_9.zip` into Power Platform
 2. Configure ServiceNow connection (`pve_sharedservicenow_597ef`)
 3. Verify AI Builder models are published
 4. Turn on the Power Automate flow
@@ -71,8 +71,8 @@ Return Response
 ```
 ESS_SNOW_Catalog/
 ├── ESS_Topic.yml                          # Copilot Studio topic
-├── SOLESSSNOWCatalog_1_0_0_8.zip         # Power Platform solution
-└── SOLESSSNOWCatalog_1_0_0_8/            # Unpacked solution
+├── SOLESSSNOWCatalog_1_0_0_9.zip         # Power Platform solution
+└── SOLESSSNOWCatalog_1_0_0_9/            # Unpacked solution
     └── Workflows/
         └── ESSEXAMPLEServiceNowOrderItem-F2F7FC20-6DF0-F011-8406-7C1E52FD22A7.json
 ```
