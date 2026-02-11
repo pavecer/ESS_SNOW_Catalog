@@ -1,4 +1,4 @@
-<ImportExportXml version="9.2.26013.135" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26013.135" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26013.00141">
+<ImportExportXml version="9.2.26014.139" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26014.139" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26014.00139">
   <SolutionManifest>
     <UniqueName>SOLESSSNOWCatalog</UniqueName>
     <LocalizedNames>
@@ -7,7 +7,7 @@
     <Descriptions>
       <Description description="Extension to Employee Self Service Agent to be able to handle ServiceNow catalog item ordering." languagecode="1033" />
     </Descriptions>
-    <Version>1.0.0.8</Version>
+    <Version>1.0.0.9</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>pavelvecer</UniqueName>
